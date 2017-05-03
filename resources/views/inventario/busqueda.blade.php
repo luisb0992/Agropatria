@@ -37,13 +37,7 @@
 				@endforeach	
 			</table>
 		</div>	
-	</div>
-	<div class="col-md-12">
-		<a href="{{ url('pdf/'.$inventario) }}" class="btn btn-danger" target="_blank">
-			<i class="fa fa-file-pdf-o"></i>
-			PDF General
-		</a>
-	</div>
+	</div>	
 	<div class="pull-right">
 		<span>{{ $inventario->links() }}</span>
 	</div>

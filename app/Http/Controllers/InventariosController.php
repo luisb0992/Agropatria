@@ -43,6 +43,7 @@ class InventariosController extends Controller
 
         $count = count($inventario);
 
+
          return view('inventario.busqueda',
                     ['inventario' => $inventario,
                     'count' => $count

@@ -48,7 +48,7 @@ class TiposController extends Controller
         $this->validate($request, [
             'name' =>'required|min:5',
             ]);
-        $name = $request->name;
+        $name = strtoupper($request->name);
         $newname = trim($name);
         $query = Tipo::where('name','=', $newname)->value("name");
         if ($query) {

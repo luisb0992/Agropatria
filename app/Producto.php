@@ -157,8 +157,7 @@ class Producto extends Model
   //productos para mostrar en inventario por mes actual y paginar
     public static function mesActual(){
       $date = date('m');
-      return Producto::latest()->whereMonth('created_at', $date)->limit(3)->simplePaginate(15);
+      return Producto::latest()->whereMonth('created_at', $date)->simplePaginate(15);
     }
-
 
 }

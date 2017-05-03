@@ -51,3 +51,4 @@ Route::get('pdf/{id}', 'PdfController@invoice');
 
 /*----- PDF Reporte general -----*/
 Route::get('pdf', 'PdfController@completo');
+

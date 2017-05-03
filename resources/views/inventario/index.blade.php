@@ -18,12 +18,12 @@
 		</div>
 		<div class="row div-padding">
 			<div class="col-xs-12 col-md-3 sale-data">
-				<span class="sale-span" style="font-size: 24px; color: #018E22">{{ $totalMonthCount }}</span>
-				Mes actual
-			</div>
-			<div class="col-xs-12 col-md-3 sale-data">
 				<span class="sale-span" style="font-size: 24px; color: #018E22">{{ $totalmesanterior }}</span>
 				Mes anterior
+			</div>
+			<div class="col-xs-12 col-md-3 sale-data">
+				<span class="sale-span" style="font-size: 24px; color: #018E22">{{ $totalMonthCount }}</span>
+				Mes actual
 			</div>
 			<div class="col-xs-12 col-md-3 sale-data">
 				<span class="sale-span" style="font-size: 24px; color: #0E19EE">{{ $totalstatusactivos }}</span>
@@ -75,6 +75,11 @@
 			<i class="fa fa-file-pdf-o"></i>
 			PDF General
 		</a>
+	</div>
+	@else
+	<div class="col-sm-12 alert alert-danger alert-dismissible">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<h4>Ningun producto registrado este mes</h4>
 	</div>
 	@endif
 	<div class="pull-right">

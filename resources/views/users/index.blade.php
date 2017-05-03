@@ -18,35 +18,33 @@
 		@endif
 	</h4>
 	<div class="div-padding text-center" style="border: solid 1px #C9C9C9;">
-		<div class="row">
-			<div class="col-sm-2 col-xs-12 list-group"><p class="list-group-item well"><b>Cedula</b><br><br> {{ $user->cedula }} </p></div>
-			<div class="col-sm-3 col-xs-12 list-group"><p class="list-group-item well"><b>Fecha Nacimiento</b><br><br> {{ $user->formatofecha() }}</p></div>
-			<div class="col-sm-4 col-xs-12 list-group"><p class="list-group-item well"><b>Correo</b><br><br> {{ $user->email }}</p></div>
-			<div class="col-sm-3 col-xs-12 list-group"><p class="list-group-item well"><b>Direccion</b><br><br> {{ $user->direccion }}</p></div>
+		<div class="row well">
+			<div class="col-sm-2 col-xs-12"><p class="text-uppercase"><b>Cedula</b></p> {{ $user->cedula }} </div>
+			<div class="col-sm-3 col-xs-12"><p class="text-uppercase"><b>Fecha Nacimiento</b></p> {{ $user->formatofecha() }}</div>
+			<div class="col-sm-4 col-xs-12"><p class="text-uppercase"><b>Correo</b></p> {{ $user->email }}</div>
+			<div class="col-sm-3 col-xs-12"><p class="text-uppercase"><b>Direccion</b></p> {{ $user->direccion }}</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-3 col-xs-12 list-group">
-				<p class="list-group-item well">
-				<b>Perfil</b><br><br> 
+		<div class="row well">
+			<div class="col-sm-3 col-xs-12">
+				<p class="text-uppercase">
+				<b>Perfil</b></p>
 				@if(($user->perfil_id) == 1)
 					<span class="text-info">Administrador</span>
 				@elseif(($user->perfil_id) == 2)
 					<span class="text-success">Usuario</span>
 				@endif
-				</p>
 			</div>
-			<div class="col-sm-3 col-xs-12 list-group">
-				<p class="list-group-item well">
-				<b>Status</b><br><br>
+			<div class="col-sm-3 col-xs-12">
+				<p class="text-uppercase">
+				<b>Status</b></p>
 				@if(($user->status) == 1)
 					<span class="text-primary">Activo</span>
 				@else
 					<span class="text-danger">Inactivo</span>
 				@endif
-				</p>
 			</div>
-			<div class="col-sm-6 col-xs-12 list-group text-center">
-				<p class="h1_padding"><b>Acciones</b></p>
+			<div class="col-sm-6 col-xs-12 text-center">
+				<p class="text-uppercase"><b>Acciones</b></p>
 				<div class="col-sm-4 col-xs-12">
 					<a href="{{ url('/users/'.$user->id) }}" class="btn btn-info">
 						<i class="fa fa-eye" aria-hidden="true"></i> VER

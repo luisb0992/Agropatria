@@ -21,7 +21,8 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = Users::latest()->simplePaginate(10);
+        $user_id = \Auth::user()->id;
+        $users = Users::where('id','<>',$user_id)->latest()->simplePaginate(10);
         return view('users.index',['users'=>$users]);
     }
 

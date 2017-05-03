@@ -127,7 +127,8 @@
                         @if((Auth::user()->perfil_id)==1)
                           <span>{{ Auth::user()->email }}</span><br>
                           <span>{{ Auth::user()->direccion }}</span><br>
-                          <span class="text-primary">Administrador</span>
+                          <span class="text-primary">Administrador</span><br>
+                          <a href="{{ url('users/'.Auth::user()->id.'/edit') }}" class="btn btn-warning pull-left">EDITAR</a>
                         @elseif((Auth::user()->perfil_id)==2)
                           <span>{{ Auth::user()->email }}</span><br>
                           <span>{{ Auth::user()->direccion }}</span><br>

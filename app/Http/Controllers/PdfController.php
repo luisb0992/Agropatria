@@ -72,7 +72,6 @@ class PdfController extends Controller
         $inventario = Producto::mesActual();
         $dateitem = date('d-m-Y-h:i:s');
 
-
         //renderisar la vista a la cual hace referencia el pdf
         $pdf = \PDF::loadView('productos.reporte_general', 
                         array('inventario' => $inventario
@@ -81,4 +80,5 @@ class PdfController extends Controller
         return $pdf->setPaper('a3','landScape')->stream($dateitem.'.pdf');
 
     }
+
 }

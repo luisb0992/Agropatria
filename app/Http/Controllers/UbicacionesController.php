@@ -52,7 +52,7 @@ class UbicacionesController extends Controller
             'name' =>'required|min:5',
             ]);
 
-        $name = $request->name;
+        $name = strtoupper($request->name);
         $namecompleto = trim($name);
         $query = DB::table('ubicaciones')->where('name','=', $namecompleto)->value("name");
         if ($query) {
