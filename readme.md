@@ -7,34 +7,31 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+<p>Base de datos</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+<span>En la carpeta bd se encuentra la base de datos junto con la nueva tabla 'pedidos', aun falta hacer la logica de dicha tabla, ademas, podran darse cuenta que ya hay data precargada en las tablas perfiles, materiales, ubicaciones, etc</span>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p>Pasos</p>
+Una vez descargado el proyecto se debe seguir ciertos pasos:<br>
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+1- crear un archivo .env en la raiz del proyecto "agropatria". <br>
+2- copiar todo lo que hay en el archivo .env.example al nuevo archivo .env ya creado, si abren el archivo veran cerca de la linea 10,11,12 la configuracion basica para conectar a la base de datos <br>
 
-## Learning Laravel
+DB_DATABASE=agropatria
+DB_USERNAME=root
+DB_PASSWORD=
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+<br>
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+estos son el nombre de la bd, el nombre del acceso al servidor de bd "root", y la clave por defecto es vacia
 
-## Contributing
+<br>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+3- luego de haber copiado y configurado el nuevo archivo .env , se procede a crear generar una llave llamada "key" para poder acceder al sistema o a la configuracion del framework.... esto se hace abriendo la terminal o cmd en el caso de windws, ubicarce en tu proyecto(ruta C:/xampp/htdocs/nombre-de-mi-proyecto) y luego de esto generar la key con el comando "php artisan key:generate" sin las comillas.
 
-## Security Vulnerabilities
+<br>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+4- una vez generada la key se procede a generar las migraciones o base de datos, no sin antes haber creado en phpmyadmin una base de datos llamada "agropatria" sin las comillas.
+<br>
+usamos el comando "php artisan migrate --seed" sin las comillas... y esto generara las tablas en dicha base de datos
+luego de esto ya podemos usar nuestro proyecto.
