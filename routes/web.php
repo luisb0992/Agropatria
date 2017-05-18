@@ -43,6 +43,9 @@ Route::resource('materiales','MaterialesController');
 /*---- Ruta  Resource para las ubicaciones----*/
 Route::resource('ubicaciones','UbicacionesController');
 
+/*---- Ruta  Resource para las ubicaciones----*/
+Route::resource('pedidos','PedidosController');
+
 /*---- Ruta  Resource para los tipos----*/
 Route::resource('tipos','TiposController');
 

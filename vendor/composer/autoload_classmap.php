@@ -7,14 +7,14 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
-    'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+    'CreatePedidosTable' => $baseDir . '/database/migrations/2017_05_18_171557_create_pedidos_table.php',
     'CreateTableEstado' => $baseDir . '/database/migrations/2017_04_11_212249_create_table_estado.php',
     'CreateTableMaterial' => $baseDir . '/database/migrations/2017_04_11_024049_create_table_material.php',
     'CreateTablePerfil' => $baseDir . '/database/migrations/2017_04_11_204434_create_table_perfil.php',
     'CreateTableProduct' => $baseDir . '/database/migrations/2017_04_11_233036_create_table_product.php',
     'CreateTableReporte' => $baseDir . '/database/migrations/2017_04_11_234023_create_table_reporte.php',
     'CreateTableTipo' => $baseDir . '/database/migrations/2017_04_11_031439_create_table_tipo.php',
-    'CreateTableUbicacion' => $baseDir . '/database/migrations/2017_04_11_022243_create_table_ubicacion.php',
+    'CreateTableUbicacion' => $baseDir . '/database/migrations/2017_04_11_205048_create_table_ubicacion.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2017_04_11_205050_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'EstadoTableSeeder' => $baseDir . '/database/seeds/EstadoTableSeeder.php',

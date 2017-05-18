@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableReporte extends Migration
+class CreatePedidosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateTableReporte extends Migration
      */
     public function up()
     {
-       Schema::create('reportes', function(Blueprint $table) {
+        Schema::create('pedidos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();;
-            $table->integer('producto_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('ubicacion_id')->unsigned();
+            $table->string('descripcion');
+            $table->boolean('status');
             $table->timestamps();
-       });
+        });
     }
 
     /**
@@ -28,6 +30,6 @@ class CreateTableReporte extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reportes');
+        Schema::dropIfExists('pedidos');
     }
 }

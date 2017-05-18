@@ -319,14 +319,14 @@ class ComposerStaticInit29bfddde1e1daeab18259c713ba84b5c
 
     public static $classMap = array (
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
-        'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreatePedidosTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_18_171557_create_pedidos_table.php',
         'CreateTableEstado' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_212249_create_table_estado.php',
         'CreateTableMaterial' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_024049_create_table_material.php',
         'CreateTablePerfil' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_204434_create_table_perfil.php',
         'CreateTableProduct' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_233036_create_table_product.php',
         'CreateTableReporte' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_234023_create_table_reporte.php',
         'CreateTableTipo' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_031439_create_table_tipo.php',
-        'CreateTableUbicacion' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_022243_create_table_ubicacion.php',
+        'CreateTableUbicacion' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_205048_create_table_ubicacion.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_11_205050_create_users_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'EstadoTableSeeder' => __DIR__ . '/../..' . '/database/seeds/EstadoTableSeeder.php',
