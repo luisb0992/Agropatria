@@ -160,6 +160,7 @@
 
         </nav>
       </header>
+      @if(Auth::user())
       @if(Auth::user()->status == 1)
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
@@ -185,6 +186,7 @@
             </li> 
             @endif
                 @if(Auth::user()->perfil_id==2)<li><a href="{{url('/productos')}}"><i class="fa fa-shopping-cart"></i> PRODUCTOS</a></li>@endif
+                 @if(Auth::user()->perfil_id==2)<li><a href="{{url('/pedidos/create')}}"><i class="fa fa-list-alt"></i> PEDIDOS</a></li>@endif
                 @if(Auth::user()->perfil_id==1)<li><a href="{{url('/inventario')}}"><i class="fa fa-list-alt"></i> INVENTARIO</a></li>@endif
                 @if(Auth::user()->perfil_id==1)<li><a href="{{url('/users')}}"><i class="fa fa-users"></i> USUARIOS</a></li>@endif
   
@@ -192,6 +194,7 @@
         </section>
         <!-- /.sidebar -->
       </aside>
+      @endif
       @endif
        <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -232,8 +235,7 @@
       </div><!-- /.content-wrapper -->
       <!--Fin-Contenido-->
       <footer class="main-footer text-center">
-        <strong>Copyright &copy; {{date("Y")}} <a href="">Venezolana de Riego C.A</a>.</strong> All rights reserved.
-        }
+        <strong>Copyright &copy; {{date("Y")}} Venezolana de Riego C.A.</strong> All rights reserved.
       </footer>
 
       

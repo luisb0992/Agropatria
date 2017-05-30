@@ -41,13 +41,6 @@ class Producto extends Model
    
    }
 
-   //Relacion con reportes
-    public function reportes(){
-
-      return $this->hasMany('App\Reporte');
-   
-   }
-
    //devulve los nombres de estados
     public function nameEstado(){
       return $this->estados->name;

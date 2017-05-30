@@ -68,11 +68,11 @@ class RegisterController extends Controller
     {
         return User::create([
             'cedula' => $data['cedula'],
-            'name' => $data['name'],
-            'ape' => $data['ape'],
+            'name' => strtoupper($data['name']),
+            'ape' => strtoupper($data['ape']),
             'perfil_id' => $data['perfil_id'],
-            'email' => $data['email'],
-            'direccion' => $data['direccion'],
+            'email' => strtoupper($data['email']),
+            'direccion' => strtoupper($data['direccion']),
             'fechanac' => $data['fechanac'],
             'password' => bcrypt($data['password']),
             'status' => $data['status'],

@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 	<div class="div-padding col-xs-12">
 		@include('message.message')

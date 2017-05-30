@@ -52,8 +52,7 @@ class InventariosController extends Controller
 
     public function reporteusers(){
 
-        $data = Reporte::with('productos','users')
-                    ->orderBy('id','DESC')
+        $data = Reporte::orderBy('id','DESC')
                     ->simplePaginate(20);
 
 

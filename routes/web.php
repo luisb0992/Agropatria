@@ -52,6 +52,10 @@ Route::resource('tipos','TiposController');
 /*----- PDF individual-----*/
 Route::get('pdf/{id}', 'PdfController@invoice');
 
+/*----- PDF individual para pedidos-----*/
+Route::get('pdf/pedido/{id}', 'PdfController@pedido');
+
 /*----- PDF Reporte general -----*/
 Route::get('pdf', 'PdfController@completo');
+
 

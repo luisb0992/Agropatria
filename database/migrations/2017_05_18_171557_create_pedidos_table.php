@@ -17,8 +17,10 @@ class CreatePedidosTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('ubicacion_id')->unsigned();
-            $table->string('descripcion');
-            $table->boolean('status');
+            $table->text('descripcion');
+            $table->string('status');
+
+            $table->foreign('ubicacion_id')->references("id")->on("ubicaciones");
             $table->timestamps();
         });
     }

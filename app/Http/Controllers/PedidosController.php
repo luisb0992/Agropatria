@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Pedido;
+use App\Ubicacion;
 
 class PedidosController extends Controller
 {
+
+    public function __construct(){
+      $this->middleware(['auth','role.user']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,37 +20,35 @@ class PedidosController extends Controller
      */
     public function index()
     {
-        $pedidos = Pedido::all();
-
-        return view('pedidos.index',['pedidos' => $pedidos]); 
+        $pedidos = Pedido::latest('id')->simplePaginate(20);
+        return view('pedidos.index',['pedidos' => $pedidos]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
+    public function create(){
+
         $pedidos = new Pedido;
+        $ubicaciones = Ubicacion::all();
 
-        return view('pedidos.create',['pedidos' => $pedidos]);
+        return view('pedidos.create',[
+            'pedidos' => $pedidos,
+            'ubicaciones' => $ubicaciones
+        ]); 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        $pedidos = new Pedido;
 
+        $this->validate($request,[
+        'descripcion' => 'required',
+        'ubicacion_id' => 'required',
+        ]);
+
+        $pedidos = new Pedido;
         $pedidos->descripcion = strtoupper($request->descripcion);
         $pedidos->user_id = \Auth::user()->id;
         $pedidos->ubicacion_id = $request->ubicacion_id;
-        $pedidos->status = $request->status;
+        $pedidos->status = strtoupper('en proceso');
 
         if ($pedidos->save()) {
             \Session::flash('message', 'Pedido creado');
@@ -64,7 +67,6 @@ class PedidosController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -87,7 +89,15 @@ class PedidosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $pedido = Pedido::find($id);
+
+        if ($pedido->status == 'EN PROCESO') {
+            $pedido->status = 'SOLICITUD PROCESADA';
+            $pedido->save();
+
+            \Session::flash('message', 'Procesada con exito');
+            return redirect('pedidos');
+        }
     }
 
     /**

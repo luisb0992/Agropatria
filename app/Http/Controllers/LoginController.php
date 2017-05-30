@@ -39,7 +39,7 @@ class LoginController extends Controller
 	            
 	        }else{
 
-	        	return redirect('auth.login')->withErrors('Verifique sus credenciales');
+	        	return redirect('/')->withErrors('Verifique sus credenciales');
 	        }
 	 }
 
@@ -47,7 +47,7 @@ class LoginController extends Controller
 	 {
 	 	/*---- funcion de salir/logout/cerrar sesion --*/
 	 	Auth::logout();
-	 	return view('login');
+	 	return view('/');
 
 	 }
     

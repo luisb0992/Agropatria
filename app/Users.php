@@ -16,12 +16,10 @@ class Users extends Model
         return $this->belongsTo('App\Perfil');
     }
 
-     //Relacion con reportes
-    public function reportes(){
-
-      return $this->hasMany('App\Reporte');
-   
-   }
+    //-------------nombre del perfil
+    public function namePerfil(){
+        return $this->perfil->name;
+    }
 
     //funcion para calcular la edad dependiendo de la fecha del usuario
     // gracias a la propiedad carbon incluida en laravel
@@ -46,6 +44,15 @@ class Users extends Model
             $query->where('status', $type);
         }
     }
+//----------- recuperar y descencriptar password
+    public function scopePassword($query, $type){
+
+        $password = config('password');
+
+        if ($type != "" && isset($password[$type])) {
+            $query->where('password', $type);
+        }
+    }
 
     //conversion de fecha
     public function formatofecha(){
@@ -66,5 +73,17 @@ class Users extends Model
         $updated = $this->updated_at;
         $newupdated = date('d-m-Y',strtotime(str_replace('/', '-', $updated)));
         return $newupdated;
+    }
+
+    //------------ nombre del status
+    public function nameStatus(){
+        $status = $this->status;
+        if ($status == 1) {
+            $status = "ACTIVO";
+        }else{
+            $status = "INACTIVO";
+        }
+
+     return $status;   
     }
 }

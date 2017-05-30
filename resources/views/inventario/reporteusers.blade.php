@@ -14,16 +14,14 @@
 			<table class="table table-bordered div-padding text-uppercase">
 					<tr>
 						<td>ITEM</td>
-						<td>DESCRIPCION</td>
 						<td>FECHA DEL REPORTE</td>
 						<td>Usuario</td>
 					</tr>
 				@foreach($data as $datos)
 					<tr>
 						<td><dt>{{$datos->producto_id}}</dt></td>
-						<td><dl class="dl-horizontal"><dt>{{$datos->productos->descripcion}}</dt></dl></td>
 						<td><dt>{{ $datos->formatocreated() }}</dt></td>
-						<td>{{ $datos->users->name }} {{ $datos->users->ape }}</td>
+						<td>{{ $datos->nameUser() }}</td>
 					</tr>
 				@endforeach	
 			</table>

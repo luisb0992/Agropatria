@@ -18,29 +18,20 @@
 				{!! Form::text('fechanac',$users->fechanac, ['class' => 'form-control', 'placeholder' => 'Fecha de nacimiento...formato: dd/mm/aa', 'id' => 'datepicker']) !!}
 			</div>
 			<div class="form-group">
-			@if(!$users->perfil_id)
 				<select name="perfil_id" class="form-control">
+					@if($users->perfil_id)
+					<option value="{{ $users->perfil_id }}">{{ $users->namePerfil() }}</option>
+					@endif
                     <option value="">Perfil del usuario...</option>
                     <option value="1">Administrador</option>
                     <option value="2">Usuario</option>
                 </select>
-            @else
-            <b>Actualmente Perfil:</b>
-            @if(($users->perfil_id) == 1)<span class="label label-info">Admin</span>@endif
-      		@if(($users->perfil_id) == 2)<span class="label label-warning">Usuario</span>@endif
-				<select name="perfil_id" class="form-control" required>
-                    <option value="">Perfil del usuario...</option>
-                    <option value="1">Administrador</option>
-                    <option value="2">Usuario</option>
-                </select>    
-			</div>
-			@endif
 			<br>
 			<div class="form-group">
-			@if(($users->status) == 1)
-				<b>Actualmente:</b><span class="label label-primary">Activo</span>
-			@endif
 				<select name="status" class="form-control">
+					@if($users->status)
+					<option value="{{ $users->status }}">{{ $users->nameStatus() }}</option>
+					@endif
                     <option value="">Status...</option>
                     <option value="1">Activo</option>
                     <option value="0">Inactivo</option>

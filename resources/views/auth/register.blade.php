@@ -3,100 +3,53 @@
 <br>
 <div class="div-padding">
     <div class="row">
-        <div class="col-md-8 col-xs-12 col-md-offset-2">
+        <div class="col-md-10 col-xs-12 col-md-offset-1">
             <div class="panel panel-primary">
-                <div class="panel-heading">Registro</div>
-                <div class="panel-body">
+                <div class="panel-heading"><h4>Registro Unico (para primer uso)</h4> </div>
+                <div class="panel-body" style="padding: 2em;">
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
                         
-                        <div class="form-group">
-                             <div class="col-md-6 col-xs-12">
-                                <input id="name" type="text" class="form-control" 
-                                name="cedula" placeholder="Cedula" required autofocus>
-                            </div>
-                            <div class="{{ $errors->has('name') ? ' has-error' : '' }}">
-                                 <div class="col-md-6 col-xs-12">
-                                    <input id="name" type="text" class="form-control" 
-                                    name="name" value="{{ old('name') }}" 
-                                    placeholder="Nombre" required>
-
-                                    @if ($errors->has('name'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('name') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
+                       <div class="form-group">
+                            {!! Form::text('cedula',null, ['class' => 'form-control', 'placeholder' => 'Cedula...ejemplo: 12345678']) !!}
                         </div>
-
                         <div class="form-group">
-                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" 
-                                name="ape" placeholder="apellido" required>
-                            </div>
-                            <div class="col-md-6">
-                                <input id="name" type="date" class="form-control" 
-                                name="fechanac" placeholder="Formato D/M/A" required>
-                            </div>
-                         </div>
-                        
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" 
-                                name="email" value="{{ old('email') }}" 
-                                required placeholder="Email...">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                            <div class="col-md-6">
-                                <textarea name="direccion" class="form-control" placeholder="Direccion"></textarea>
-                            </div>
+                            {!! Form::text('name',null, ['class' => 'form-control', 'placeholder' => 'Nombre...']) !!}
                         </div>
-                        
-                         <div class="form-group">
-                            <div class="{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required placeholder="Contraseña...">
-
-                                    @if ($errors->has('password'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirmar Contraseña...">
-                            </div>
+                        <div class="form-group">
+                            {!! Form::text('ape',null, ['class' => 'form-control', 'placeholder' => 'Apellido...']) !!}
                         </div>
-
                         <div class="form-group">
-                            <div class="col-md-6">
-                                 <select name="perfil_id" class="form-control" required>
-                                    <option value="">Perfil...</option>
-                                    <option value="1">Administrador</option>
-                                 </select>
-                            </div>
-                            <div class="col-md-6">
-                                 <select name="status" class="form-control" required>
-                                    <option value="">status...</option>
-                                    <option value="1">Activo</option>
-                                 </select>
-                            </div>
-                         </div>
-                        
+                            {!! Form::email('email',null, ['class' => 'form-control', 'placeholder' => 'Correo electronico...']) !!}
+                        </div>
                         <div class="form-group">
-                            <div class="col-md-6"></div>
-                            <div class="col-md-6 col-xs-12">
-                                <button type="submit" class="btn btn-block btn-success" style="color:black">
-                                    Registro
-                                </button>
-                            </div>
+                            {!! Form::textarea('direccion',null, ['class' => 'form-control', 'placeholder' => 'Direccion...']) !!}
+                        </div>
+                        <div class="form-group">
+                            {!! Form::text('fechanac',null, ['class' => 'form-control', 'placeholder' => 'Fecha de nacimiento...formato: aa/mm/dd', 'id' => 'datepicker']) !!}
+                        </div>
+                        <div class="form-group">
+                            <select name="perfil_id" class="form-control">
+                                <option value="">Perfil del usuario...</option>
+                                <option value="1">Administrador</option>
+                            </select>
+                        </div>    
+                        <br>
+                        <div class="form-group">
+                            <select name="status" class="form-control">
+                                <option value="">Status...</option>
+                                <option value="1">Activo</option>
+                            </select>    
+                        </div>
+                        <div class="form-group">
+                            {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Contraseña...']) !!}
+                        </div>
+                        <div class="form-group">
+                            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required placeholder="Confirmar Contraseña...">
+                        </div>      
+                        <div class="form-group text-right">
+                            <a href="{{ url('/') }}" class="btn btn-link text-primary">Volver al inicio</a>
+                            <input type="submit" value="Registro" class="btn btn-success" style="color:black">
                         </div>
 
 
@@ -108,3 +61,5 @@
     </div>
 </div>
 @endsection
+
+           

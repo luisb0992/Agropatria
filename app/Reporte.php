@@ -9,7 +9,7 @@ class Reporte extends Model
 {
     protected $table = 'reportes';
     protected $fillable = ['producto_id','user_id'];
-S
+    
    // conversion del formato de creacion y actualizacion del registro
     public function formatocreated(){
         $created = $this->created_at;
@@ -23,6 +23,21 @@ S
         return $newupdated;
     }
   // fin de la conversion 
+
+    //definiendo relaciones
+    public function productos(){
+        return $this->belongsTo('App\Producto','producto_id');
+    }
+
+    public function users(){
+        return $this->belongsTo('App\Users','user_id');
+    }
+
+    //metodos de obtencion de los nombres
+    public function nameUser(){
+        return $this->users->name." ".$this->users->ape;
+    }
+
 
 
 }

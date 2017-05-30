@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Producto;
 use App\Users;
 use App\Reporte;
+use App\Pedido;
 
 class PdfController extends Controller
 {
@@ -78,6 +79,27 @@ class PdfController extends Controller
                         ));
         
         return $pdf->setPaper('a3','landScape')->stream($dateitem.'.pdf');
+
+    }
+
+    //------------ reporte pdf para los pedidos
+    public function pedido($id){
+
+        $pedidos = Pedido::find($id);
+
+        $users = Users::where('id','=',$pedidos->user_id)->get();
+
+        //concatenar el id y fecha para nombrar los .pdf 
+        $dateitem = $id.date('d-m-Y-h:i:s');
+
+        //renderisar la vista a la cual hace referencia el pdf
+        $pdf = \PDF::loadView('pedidos.reporte_pedido',
+                        array(
+                            'users' => $users,
+                            'pedidos' => $pedidos
+        ));
+        
+        return $pdf->stream('pedido'.$dateitem.'.pdf');
 
     }
 

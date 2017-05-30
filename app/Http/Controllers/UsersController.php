@@ -49,10 +49,10 @@ class UsersController extends Controller
 
       //$product->user_id = auth::user()->id;
       $users->cedula = $request->cedula;
-      $users->name = $request->name;
-      $users->ape = $request->ape;
-      $users->email = $request->email;
-      $users->direccion = $request->direccion;
+      $users->name = strtoupper($request->name);
+      $users->ape = strtoupper($request->ape);
+      $users->email = strtoupper($request->email);
+      $users->direccion = strtoupper($request->direccion);
       $newfecha = date('Y-m-d',strtotime(str_replace('/', '-', $request->fechanac)));
       $users->fechanac = $newfecha;
       $users->perfil_id = $request->perfil_id;
@@ -103,10 +103,10 @@ class UsersController extends Controller
     {
           $users = Users::find($id);
           $users->cedula = $request->cedula;
-          $users->name = $request->name;
-          $users->ape = $request->ape;
-          $users->email = $request->email;
-          $users->direccion = $request->direccion;
+          $users->name = strtoupper($request->name);
+          $users->ape = strtoupper($request->ape);
+          $users->email = strtoupper($request->email);
+          $users->direccion = strtoupper($request->direccion);
           $newfecha = date('Y-m-d',strtotime(str_replace('/', '-', $request->fechanac)));
           $users->fechanac = $newfecha;
           $users->perfil_id = $request->perfil_id;

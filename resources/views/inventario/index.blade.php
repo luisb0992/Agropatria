@@ -76,7 +76,7 @@
 			PDF General
 		</a>
 	</div>
-	@else
+	@elseif($count == 0)
 	<div class="col-sm-12 alert alert-danger alert-dismissible">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<h4>Ningun producto registrado este mes</h4>
