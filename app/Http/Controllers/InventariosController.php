@@ -4,28 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Producto;
-use App\Reporte;
 
 class InventariosController extends Controller
 {
-	public function __construct(){
-      $this->middleware(['auth','role.admin']);
-    }
-
     public function index(){
 
-    	$totalstatusinactivos = Producto::totalStatusInactive();
-    	$totalstatusactivos = Producto::totalStatusActive();
     	$totalmesanterior = Producto::totalMonthBackCount();
     	$totalMonthCount = Producto::totalMonthCount();
-    	$inventario = Producto::mesActual();
+    	$inventario = Producto::dataBienes();
         $count = count($inventario);
     	return view('inventario.index',
     		['inventario' => $inventario,
     		'totalMonthCount' => $totalMonthCount,
     		'totalmesanterior' => $totalmesanterior,
-    		'totalstatusactivos' => $totalstatusactivos,
-    		'totalstatusinactivos' => $totalstatusinactivos,
             'count' => $count
     		]);
     }
@@ -35,54 +26,42 @@ class InventariosController extends Controller
         $this->validate($request, [
             'from' =>'required',
             'to' =>'required',
-            ]);
+        ]);
         $desde = date('Y-m-d 00:00:00',strtotime(str_replace('/', '-', $request->from)));
         $hasta = date('Y-m-d 23:59:59',strtotime(str_replace('/', '-', $request->to)));
+        
+        $totalmesanterior = Producto::totalMonthBackCount();
+        $totalMonthCount = Producto::totalMonthCount();
 
-        $inventario = Producto::whereBetween('created_at',[$desde, $hasta])->simplePaginate(20);
+
+        $inventario = Producto::whereBetween('created_at',[$desde, $hasta])->get();
 
         $count = count($inventario);
 
 
-         return view('inventario.busqueda',
-                    ['inventario' => $inventario,
+         return view('inventario.index',[
+                    'inventario' => $inventario,
+                    'totalmesanterior' => $totalmesanterior,
+                    'totalMonthCount' => $totalMonthCount,
                     'count' => $count
-                    ]);
+        ]);
     }
 
-    public function reporteusers(){
+    public function busquedaBienes($id){
+        $producto = Producto::find($id);
 
-        $data = Reporte::orderBy('id','DESC')
-                    ->simplePaginate(20);
-
-
-        return view('inventario.reporteusers',
-                    ['data' => $data,
-                    ]);
-    }
-
-    public function pickerReporte(Request $request){
-        $this->validate($request, [
-            'from' =>'required',
-            'to' =>'required',
-            ]);
-        $from = $request->from;
-        $to = $request->to;
-        $desde = date('Y-m-d 00:00:00',strtotime(str_replace('/', '-', $from)));
-        $hasta = date('Y-m-d 23:59:59',strtotime(str_replace('/', '-', $to)));
-
-        $data = Reporte::with('productos','users')
-                    ->whereBetween('created_at',[$desde, $hasta])
-                    ->orderBy('id','DESC')
-                    ->simplePaginate(20);
-
-        $count = count($data);
-
-         return view('inventario.busquedareporte',
-                    ['data' => $data,
-                    'count' => $count,
-                    'from' => $from,
-                    'to' => $to
-                    ]);
+        return response()->json([
+            "etiqueta" => $producto->etiqueta,
+            "departamento_id" => $producto->nameDepartamento(),
+            "ubicacion_exacta_id" => $producto->nameUbicacionExacta(),
+            "categoria_id" => $producto->nameCategoria(),
+            "sub_categoria_id" => $producto->nameSubCategoria(),
+            "tipo_subcat_id" => $producto->tipoSubCat->descripcion,
+            "marca" => $producto->marca,
+            "modelo" => $producto->modelo,
+            "serial" => $producto->serial,
+            "descripcion" => $producto->descripcion,
+            "status_bienes_id" => $producto->nameStatusBienes()
+        ]);
     }
 }

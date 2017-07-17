@@ -24,28 +24,32 @@ class CreateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'etiqueta'=>'required',
-            'empresa'=>'required',
-            'estado_id'=>'required',
-            'ubicacion_id'=>'required',
-            'tipo_id'=>'required',
-            'material_id'=>'required',
-            //'descripcion'=>'required',
-            'status'=>'required'
+            'etiqueta'=>'required|unique:bienes,etiqueta',
+            'departamento_id'=>'required',
+            'ubicacion_exacta_id'=>'required',
+            'categoria_id'=>'required',
+            'sub_categoria_id'=>'required',
+            'tipo_subcat_id'=>'required',
+            'status_bienes_id'=>'required',
+            'name'=>'required',
+            'ape'=>'required',
+            'cedula'=>'required|numeric'
         ];
     }
 
     public function messages()
     {
         return [
-        'etiqueta.required'=>'La etiqueta no debe estar vacia',
-        'empresa.required'=>'El nombre de la empresa no debe estar vacia',
-        'estado_id.required'=>'debe seleccionar un estado',
-        'ubicacion_id.required'=>'La ubicacion no debe estar vacia',
-        'tipo_id.required'=>'El tipo no debe estar vacio',
-        'material_id.required'=>'El material no debe estar vacio',
-        //'descripcion.required'=>'La Descripcion no debe estar vacia',
-        'status.required'=>'Debe seleccionar un status del producto',
+            'etiqueta.required'=>'La etiqueta no debe estar vacia',
+            'departamento_id.required'=>'debe seleccionar un departamento',
+            'ubicacion_exacta_id.required'=>'La ubicacion no debe estar vacia',
+            'categoria_id.required'=>'la categoria no debe estar vacia',
+            'sub_categoria_id.required'=>'La sub-categoria no debe estar vacia',
+            'status_bienes_id.required'=>'Debe seleccionar un status',
+            'name.required'=>'Debe escribir un nombre del responsable',
+            'ape.required'=>'Debe escribir un apellido del responsable',
+            'cedula.required'=>'Debe escribir la cedula del responsable',
+            'cedula.numeric'=>'La cedula debe ser numerica ejemplo (12345678)',
         ];
     }
 }

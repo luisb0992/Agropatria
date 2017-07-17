@@ -16,12 +16,11 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('cedula')->unique();
-            $table->string('name', 100);
-            $table->string('ape', 100);
-            $table->integer('perfil_id')->unsigned();
+            $table->string('name');
+            $table->string('ape');
             $table->string('email',190)->unique();
             $table->string('direccion')->nullable();
-            $table->date('fechanac');
+            $table->integer('perfil_id')->unsigned();
             $table->string('password');
             $table->boolean('status');
             

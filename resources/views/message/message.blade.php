@@ -1,5 +1,5 @@
 	@if (Session::has('message'))
-		<div class="alert alert-success">
+		<div class="alert alert-success" id="mensaje">
 		    <button type="button" class="close" data-dismiss="alert">&times;</button>
 		    {{ Session::get('message') }}
 		</div>

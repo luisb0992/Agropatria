@@ -1,40 +1,96 @@
 @extends('layouts.app')
 @section('content')	
 <div class="div-padding">
-	<div class="panel panel-success">
-		<div class="panel panel-heading">
-			<h3>Item: <span class="text-info">{{ $productos->id }}</span></h3>
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3>Etiqueta: <span>{{ $productos->etiqueta }}</span></h3>
 		</div>
-		<div class="panel panel-body text-uppercase">
+		<div class="panel-body text-left">
 			<div class="row">
-				<div class="col-sm-6 sale-span"><b>Etiqueta</b> <br>{{ $productos->etiqueta }}</div>
-				<div class="col-sm-6 sale-span"><b>Empresa</b> <br>{{ $productos->empresa }}</div>
-				<div class="col-sm-6 sale-span"><b>Estado</b> <br>{{ $productos->nameEstado() }}</div>
-				<div class="col-sm-6 sale-span"><b>Ubicacion</b> <br>{{ $productos->nameUbicacion() }}</div>
-				<div class="col-sm-6 sale-span"><b>Tipo</b> <br>{{ $productos->nameTipo() }}</div>
-				<div class="col-sm-6 sale-span"><b>Marca</b> <br>@if($productos->marca == '')Sin Marca @else {{$productos->marca}} @endif</div>
-				<div class="col-sm-6 sale-span"><b>Modelo</b> <br>@if($productos->modelo == '')Sin Modelo @else {{$productos->modelo}} @endif</div>
-				<div class="col-sm-6 sale-span"><b>Serial</b> <br>@if($productos->serial == '')Sin Serial @else {{$productos->serial}} @endif</div>
-				<div class="col-sm-6 sale-span"><b>Material</b> <br>{{ $productos->nameMaterial() }}</div>
-				<div class="col-sm-6 sale-span"><b>Descripcion</b> <br>{{ $productos->descripcion }}</div>
-				<div class="col-sm-6 sale-span">
-					@if(($productos->status) == 1)
-						<b>Status</b> <br><span class="label label-primary">Activo</span>
-					@else
-						<b>Status</b> <br><span class="label label-danger">Inactivo</span>
-					@endif
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Departamento</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameDepartamento() }}</p>
+					</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Ubicacion Exacta</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameUbicacionExacta() }}</p>
 				</div>
-				<div class="col-sm-6 sale-span"><b>Creado el:</b><br> {{ $productos->formatocreated() }}</div>
-				<div class="col-sm-6 sale-span"><b>Ultima Actualizacion:</b><br> {{ $productos->formatoupdated() }}</div>
-				<div class="col-sm-6 sale-span">
-					<a href="{{ url('pdf/'.$productos->id) }}" class="btn btn-danger" target="_blank">
-					<i class="fa fa-file-pdf-o"></i>
-					PDF
-					</a>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Categoria</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameCategoria() }}</p>
 				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Sub-Categoria</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameSubCategoria() }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Tipo de Sub-Categoria</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->tipoSubCat->descripcion }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Marca</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameMarca() }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Modelo</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameModelo() }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Serial</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->nameSerial() }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Status</b></p> 
+					<p class="list-group-item list-group-item-heading">EN {{ $productos->nameStatusBienes() }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p class="list-group-item list-group-item-info"><b>Descripcion</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->descripcion }}</p>
+				</div>
+				<div class="col-sm-3">
+					<p class="list-group-item list-group-item-info"><b>Creado el:</b></p>
+				 	<p class="list-group-item list-group-item-heading">{{ $productos->formatocreated() }}</p>
+				 </div>
+				<div class="col-sm-3">
+					<p class="list-group-item list-group-item-info"><b>Ultima Actualizacion:</b></p>
+				 	<p class="list-group-item list-group-item-heading">{{ $productos->formatoupdated() }}</p>
+				</div>
+
+				<div class="text-left col-sm-12">
+					@include('message.mensajes_ajax')
+					<h3><span class="text-primary"><i class="glyphicon glyphicon-user"></i></span>Responsable
+						<button type="button" id="btn_resp" value="{{ $productos->responsable->id }}" 
+						data-toggle="modal" data-target="#modal_edit_resp" 
+						aria-expanded="false" aria-controls="modal_edit_resp" 
+						class="btn " onclick="MostrarResp(this);">
+							<span class="text-warning">
+								<i class="glyphicon glyphicon-edit" aria-hidden="true"></i>
+								Editar
+							</span>	
+						</button>
+					</h3>	
+						@include('partials.modal_edit_resp')
+				</div>
+
+				<div class="col-sm-3">
+					<p class="list-group-item list-group-item-info"><b>Cedula</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->responsable->cedula }}</p>
+				</div>
+				<div class="col-sm-3">
+					<p class="list-group-item list-group-item-info"><b>Nombre Y Apellido</b></p> 
+					<p class="list-group-item list-group-item-heading">{{ $productos->responsable->name.' '.$productos->responsable->ape }}</p>
+				</div>
+				<!-- <div class="col-sm-6 text-right">
+					<p>
+						<a href="{{ url('pdf/'.$productos->id) }}" class="btn btn-danger" target="_blank">
+						<i class="fa fa-file-pdf-o"></i>
+						PDF
+						</a>
+					</p>
+				</div> -->
 			</div>
 		</div>
 	</div>	
-	<div class="col-sm-12 text-right"><a href="{{ url('/productos') }}" class="btn btn-link">Listado de Productos</a></div>											
+	<div class="text-left"><a href="{{ url('/productos') }}" class="btn btn-link">Listado de Bienes</a></div>											
 </div>
 @endsection

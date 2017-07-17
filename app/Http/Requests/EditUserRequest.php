@@ -39,7 +39,6 @@ public function rules()
             'name'=>'required',
             'ape'=>'required',
             'email'=>'required|email|unique:users,email,'. $this->route->parameter('user'),
-            'fechanac'=>'required|date',
             'perfil_id'=>'required|in:1,2',
             'status'=>'required|in:1,0',
         ];
@@ -55,8 +54,6 @@ public function rules()
         'email.required'=>'El correo no debe estar vacio',
         'email.email'=>'El correo debe ser formato email, Ejemplo: yo@ejemplo.com',
         'email.unique'=>'El correo no debe estar en uso',
-        'fechanac.required'=>'La fecha de nacimiento no debe estar vacia',
-        'fechanac.date'=>'La fecha de nacimiento debe ser en formato: dd/mm/aa',
         'perfil_id.required'=>'Debe seleccionar un perfil del usuario',
         'perfil_id.in'=>'Error al elegir el perfil del usuario',
         'status.required'=>'Debe seleccionar un status',

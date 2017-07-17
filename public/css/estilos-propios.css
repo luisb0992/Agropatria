@@ -1,0 +1,85 @@
+.btn-hover-pdf:hover{
+  text-decoration: none;
+  color: #320909;
+}
+.border-bottom-1{
+  border-bottom: solid 1px #DBDBDB;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+div.table.table-responsive{
+  background-color: #FAFAFA;
+  padding: 2em;
+  /* color: #4E4E4E; */
+}
+.login{
+	position: absolute;
+	top: 10%;
+	width: 100%;
+	
+}
+.gris-oscuro{
+	background-color: #222D32;
+}
+.gris-claro{
+	background-color: #F5F5F5;
+}
+.div-separator-right{
+	border-right: solid 1px #B7B6B6;
+}
+.border-claro{
+	border: solid 1px #D7D7D7;
+}
+.div-warning{
+  background-color: #CBA25B;
+  color: #fff;
+  padding: 0.5em;
+  box-shadow: inset 8px 4px 4px 0px rgba(0, 0, 0, 0.075);
+}
+.div-blue{
+  background-color: #5B78CB;
+  color: #fff;
+  padding: 0.5em;
+  box-shadow: inset 8px 4px 4px 0px rgba(0, 0, 0, 0.075);
+}
+.div-green{
+  background-color: #5BCB7D;
+  color: #fff;
+  padding: 0.5em;
+  box-shadow: inset 8px 4px 4px 0px rgba(0, 0, 0, 0.075);
+}
+.h1_padding{
+  padding-bottom: 10px; 
+  border-bottom: solid 1px #222;
+}
+.border-total{
+  border: solid 1px #222;
+}
+.sale-data{
+  padding: 1em;
+  text-align: center;
+  border-right: solid 1px #222;
+}
+.sale-span{
+  text-align: center;
+  display: block;
+  font-size: 1.2em;
+  padding: 1em;
+  color: #222;
+  border-bottom: solid 1px #eee;
+}
+.white{
+  background-color: #fff;
+}
+.color-grey{
+  background-color: #eee;
+}
+.sombra{
+   box-shadow: inset 4px 2px 2px rgba(0, 0, 0, 0.075);
+}
+.div-padding{
+  padding: 2em;
+}
+.white-text{
+  color: #fff;
+}

@@ -10,53 +10,32 @@
     
     <!--principal-->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-   
-    <!-- bootstrap material-->
+    <link rel="stylesheet" href="{{asset('css/estilos-propios.css')}}">
 
-    <link rel="stylesheet" href="{{ asset('css/material/bootstrap-material-design.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/bootstrap-material-design.css.map') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/bootstrap-material-design.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/bootstrap-material-design.min.css.map') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/ripples.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/ripples.css.map') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/ripples.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/material/ripples.min.css.map') }}">
-   
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
+     <!-- Datepicker Files -->
+    <link rel="stylesheet" href="{{asset('plugins/jquery_datepicker/jquery-ui.css')}}">
 
 
   </head>
-  <body class="white">
+  <body class="gris-oscuro">
     
    <!--Contenido-->
      @yield('content') 
   <!--Fin Contenido-->
       
-    <!-- jQuery 3.1.4 -->
-    <script src="{{asset('js/jquery.js')}}"></script>
+   <!-- jQuery 3.1.4 -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
-
+    <script src="{{asset('plugins/jquery_datepicker/external/jquery/jquery.js')}}"></script>
+    <script src="{{asset('plugins/jquery_datepicker/jquery-ui.js')}}"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
-    
-    <script src="{{ asset('js/material/material.js') }}"></script>
-    <script src="{{ asset('js/material/material.min.js') }}"></script>
-    <script src="{{ asset('js/material/material.min.js.map') }}"></script>
-    <script src="{{ asset('js/material/ripples.js') }}"></script>
-    <script src="{{ asset('js/material/ripples.min.js') }}"></script>
-    <script src="{{ asset('js/material/ripples.min.js.map') }}"></script>
-    
-    <script>$.material.init();</script>
-    <script>
-      $('#myButton').on('click', function () {
-        var $btn = $(this).button('loading')
-        // business logic...
-        $btn.button('reset')
-      })
-    </script>
+
+    <script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('plugins/datatables/dataTables.bootstrap.js')}}"></script>
+    <script src="{{asset('js/funciones.js')}}"></script>
+  
   </body>
 </html>

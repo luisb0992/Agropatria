@@ -59,6 +59,7 @@ class Kernel extends HttpKernel
         'role.admin' => \App\Http\Middleware\RoleAdmin::class,
         'role.user' => \App\Http\Middleware\RoleUser::class,
         'user.login' => \App\Http\Middleware\UserLogin::class,
-        'validate.firt.user' => \App\Http\Middleware\ValidateFirtUser::class
+        'validate.firt.user' => \App\Http\Middleware\ValidateFirtUser::class,
+        'status_user' => \App\Http\Middleware\StatusUser::class
     ];
 }

@@ -53,7 +53,6 @@ class RegisterController extends Controller
             'name' => 'required|max:255',
             'ape' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
-            'fechanac' => 'required|max:255',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -73,7 +72,6 @@ class RegisterController extends Controller
             'perfil_id' => $data['perfil_id'],
             'email' => strtoupper($data['email']),
             'direccion' => strtoupper($data['direccion']),
-            'fechanac' => $data['fechanac'],
             'password' => bcrypt($data['password']),
             'status' => $data['status'],
         ]);

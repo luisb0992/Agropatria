@@ -6,14 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Users;
+use App\Bitacora;
 
 class UsersController extends Controller
 {
-
-    public function __construct(){
-      $this->middleware(['auth','role.admin']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +18,7 @@ class UsersController extends Controller
     public function index()
     {
         $user_id = \Auth::user()->id;
-        $users = Users::where('id','<>',$user_id)->latest()->simplePaginate(10);
+        $users = Users::where('id','<>',$user_id)->latest()->get();
         return view('users.index',['users'=>$users]);
     }
 
@@ -53,13 +49,12 @@ class UsersController extends Controller
       $users->ape = strtoupper($request->ape);
       $users->email = strtoupper($request->email);
       $users->direccion = strtoupper($request->direccion);
-      $newfecha = date('Y-m-d',strtotime(str_replace('/', '-', $request->fechanac)));
-      $users->fechanac = $newfecha;
       $users->perfil_id = $request->perfil_id;
       $users->password = bcrypt($request->password);
       $users->status = $request->status;
 
       if ($users->save()) {
+            Bitacora::saveData($users->id, 'users', 1);
             \Session::flash('message', 'Usuario creado con exito!');
             return redirect('/users');
       }else{
@@ -107,12 +102,11 @@ class UsersController extends Controller
           $users->ape = strtoupper($request->ape);
           $users->email = strtoupper($request->email);
           $users->direccion = strtoupper($request->direccion);
-          $newfecha = date('Y-m-d',strtotime(str_replace('/', '-', $request->fechanac)));
-          $users->fechanac = $newfecha;
           $users->perfil_id = $request->perfil_id;
           $users->status = $request->status;
 
           if ($users->save()) {
+              Bitacora::saveData($users->id, 'users', 2);
               \Session::flash('message', 'Editado con exito!');
               return redirect('users');
           }else{
@@ -128,8 +122,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        Users::destroy($id);
-        \Session::flash('message', 'Eliminado con exito!');
-        return redirect('/users');
+        // Users::destroy($id);
+        // \Session::flash('message', 'Eliminado con exito!');
+        // return redirect('/users');
     }
 }

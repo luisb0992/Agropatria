@@ -12,6 +12,7 @@
     
     <!--principal-->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/estilos-propios.css')}}">
     
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
@@ -22,7 +23,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{asset('css/AdminLTE.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/glyphicons.css')}}">
-    <link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}">
     
     <!-- Datepicker Files -->
     <link rel="stylesheet" href="{{asset('plugins/jquery_datepicker/jquery-ui.css')}}">
@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{asset('css/_all-skins.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/highcharts.css')}}">
     <link rel="shortcut icon" href="{{asset('img/unnamed.png')}}">
+    <link rel="stylesheet" href="{{asset('plugins/datatables/dataTables.bootstrap.css')}}">
 
   </head>
 
@@ -55,28 +56,7 @@
        border-radius: 200px /8px; 
        height: 0px; 
        text-align: center; 
-     } 
-     .skin-blue .main-header .logo {
-          background-color: #2ab27b;
-          color: #fff;
-          border-bottom: 0 solid transparent;
-      }
-      .skin-blue .main-header .logo:hover {
-          background-color: #2ab27b;
-          color: #fff;
-          border-bottom: 0 solid transparent;
-      }
-      .skin-blue .main-header .navbar {
-          background-color: #2ab27b;
-
-      }
-      .skin-blue .main-header .navbar .sidebar-toggle:hover {
-          background-color: #27A572;
-      }
-      .skin-blue .main-header li.user-header {
-          background-color: #F6F6F6;
-           color: #000;
-      }
+     }
       .navbar{
         margin-top: 0px;
         margin-bottom: 0px;
@@ -84,7 +64,7 @@
       }
 
   </style>
-  <body class="hold-transition skin-blue sidebar-mini">
+  <body class="hold-transition skin-green sidebar-mini">
     <div class="wrapper">
 
       <header class="main-header">
@@ -113,7 +93,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-user" aria-hidden="true"></i>
                   <span class="hidden-xs">
-                  @if(Auth::user())
+                  @if(Auth::check())
                     {{ Auth::user()->name }} {{ Auth::user()->ape }}
                   @endif  
                   </span>
@@ -122,17 +102,27 @@
 
                   <!-- User image -->
                   <li class="div-padding">
-                    <p class="text-left text-uppercase">
-                    @if(Auth::user())
+                    <p class="text-left text-capitalize">
+                    @if(Auth::check())
                         @if((Auth::user()->perfil_id)==1)
-                          <span>{{ Auth::user()->email }}</span><br>
-                          <span>{{ Auth::user()->direccion }}</span><br>
-                          <span class="text-primary">Administrador</span><br>
-                          <a href="{{ url('users/'.Auth::user()->id.'/edit') }}" class="btn btn-warning pull-left">EDITAR</a>
+                          <p>
+                            <label for="">E-mail</label><br>
+                            <span>{{ Auth::user()->email }}</span>
+                          </p>
+                          <p>
+                            <label for="">Perfil</label><br>
+                            <span class="text-primary">Administrador</span>
+                          </p>
+                          
                         @elseif((Auth::user()->perfil_id)==2)
-                          <span>{{ Auth::user()->email }}</span><br>
-                          <span>{{ Auth::user()->direccion }}</span><br>
-                          <span class="text-warning">Usuario</span>
+                          <p>
+                            <label for="">E-mail</label><br>
+                            <span>{{ Auth::user()->email }}</span>
+                          </p>
+                          <p>
+                            <label for="">Perfil</label><br>
+                            <span class="text-warning">Usuario</span>
+                          </p>
                         @endif
                     @endif  
                     </p>
@@ -140,11 +130,18 @@
                   
                   <!-- Menu Footer-->
                   <li class="user-footer">
+                  @if(Auth::check())
+                   @if((Auth::user()->perfil_id)==1)
+                    <div class="pull-left">
+                      <a href="{{ url('users/'.Auth::user()->id.'/edit') }}" class="btn btn-warning"><span class="white-text">EDITAR</span></a>
+                    </div>
+                   @endif 
+                  @endif 
                      <div class="pull-right">
                      <a href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();" 
-                        class="btn btn-danger btn-flat">
+                        class="btn btn-danger">
                            Salir
                      </a>
                      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -160,7 +157,7 @@
 
         </nav>
       </header>
-      @if(Auth::user())
+      @if(Auth::check())
       @if(Auth::user()->status == 1)
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
@@ -172,23 +169,16 @@
           <ul class="sidebar-menu">
             <li class="header"></li>
             @if(Auth::user()->perfil_id==2)
-            <li class="treeview">
-              <a href="#">
-              <i class="fa fa-cogs"></i>
-                <span>UTILIDADES</span>
-                <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li><a href="{{url('/tipos')}}"><i class="fa fa-list-ol"></i> TIPOS</a></li>
-                <li><a href="{{url('/ubicaciones')}}"><i class="fa fa-map-marker"></i> UBICACIONES</a></li>
-                <li><a href="{{url('/materiales')}}"><i class="fa fa-wrench"></i> MATERIALES</a></li>
-              </ul>
-            </li> 
+              <li><a href="{{url('/departamentos')}}"><i class="glyphicon glyphicon-duplicate"></i> DEPARTAMENTOS</a></li>
+              <li><a href="{{url('/categorias')}}"><i class="glyphicon glyphicon-th-list"></i> CATEGORIAS</a></li>
+              <li><a href="{{url('/productos')}}"><i class="fa fa-list-alt"></i> BIENES</a></li> 
             @endif
-                @if(Auth::user()->perfil_id==2)<li><a href="{{url('/productos')}}"><i class="fa fa-shopping-cart"></i> PRODUCTOS</a></li>@endif
-                 @if(Auth::user()->perfil_id==2)<li><a href="{{url('/pedidos/create')}}"><i class="fa fa-list-alt"></i> PEDIDOS</a></li>@endif
-                @if(Auth::user()->perfil_id==1)<li><a href="{{url('/inventario')}}"><i class="fa fa-list-alt"></i> INVENTARIO</a></li>@endif
-                @if(Auth::user()->perfil_id==1)<li><a href="{{url('/users')}}"><i class="fa fa-users"></i> USUARIOS</a></li>@endif
+            @if(Auth::user()->perfil_id==1)
+              <li><a href="{{url('/users')}}"><i class="fa fa-users"></i> USUARIOS</a></li>
+              <li><a href="{{url('/inventario')}}"><i class="fa fa-list-alt"></i> INVENTARIO</a></li>
+              <!-- <li><a href="{{url('/estadisticas')}}"><i class="fa fa-pie-chart"></i> ESTADISTICAS</a></li> -->
+              <li><a href="{{url('/bitacora')}}"><i class="fa fa-database"></i> BITACORA</a></li>
+            @endif
   
           </ul>
         </section>
@@ -240,81 +230,20 @@
 
       
     <!-- jQuery 3.1.4 -->
-    <script src="{{asset('js/jquery.js')}}"></script>
+    <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('plugins/jquery_datepicker/external/jquery/jquery.js')}}"></script>
-
+    <script src="{{asset('plugins/jquery_datepicker/jquery-ui.js')}}"></script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
     <!-- AdminLTE App -->
     <script src="{{asset('js/app.min.js')}}"></script>
 
-    <script src="{{asset('plugins/jquery_datepicker/jquery-ui.js')}}"></script>
-    
-    <script>
-      $( function() {
-        var dateFormat = "mm/dd/yy",
-          from = $( "#from" )
-            .datepicker({
-              defaultDate: "+1w",
-              changeMonth: true,
-              changeYear: true,
-              numberOfMonths: 1
-            })
-            .on( "change", function() {
-              to.datepicker( "option", "minDate", getDate( this ) );
-            }),
-          to = $( "#to" ).datepicker({
-            defaultDate: "+1w",
-            changeMonth: true,
-            changeYear: true,
-            numberOfMonths: 1
-          })
-          .on( "change", function() {
-            from.datepicker( "option", "maxDate", getDate( this ) );
-          });
-     
-        function getDate( element ) {
-          var date;
-          try {
-            date = $.datepicker.parseDate( dateFormat, element.value );
-          } catch( error ) {
-            date = null;
-          }
-     
-          return date;
-        }
-      } );
-      </script>
-      <script>
-      $( function() {
-        $( "#datepicker" ).datepicker({
-          changeMonth: true,
-          changeYear: true,
-          yearRange: '-100:+0'
-        });
-      } );
-      </script>
-      <script>
-         $.datepicker.regional['es'] = {
-         closeText: 'Cerrar',
-         prevText: '< Ant',
-         nextText: 'Sig >',
-         currentText: 'Hoy',
-         monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-         monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
-         dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-         dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
-         dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
-         weekHeader: 'Sm',
-         dateFormat: 'dd/mm/yy',
-         firstDay: 1,
-         isRTL: false,
-         showMonthAfterYear: false,
-         yearSuffix: ''
-         };
-         $.datepicker.setDefaults($.datepicker.regional['es']);
-        </script>
+    <script src="{{asset('plugins/datatables/jquery.dataTables.js')}}"></script>
+    <script src="{{asset('plugins/datatables/dataTables.bootstrap.js')}}"></script>
+    <script src="{{asset('js/funciones.js')}}"></script>
+   
     @yield('script')
   </body>
 </html>
+

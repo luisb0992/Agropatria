@@ -6,17 +6,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\EditProductRequest;
 use App\Producto;
-use App\Estado;
-use App\Tipo;
-use App\Material;
-use App\Ubicacion;
+use App\Departamento;
+use App\UbicacionExacta;
+use App\Categoria;
+use App\SubCategoria;
+use App\TipoSubCat;
+use App\StatusBienes;
+use App\Responsable;
+use App\Bitacora;
 
 class ProductosController extends Controller
 {
-    public function __construct(){
-      $this->middleware(['auth','role.user']);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,8 +24,23 @@ class ProductosController extends Controller
      */
     public function index()
     {
-        $productos = Producto::latest()->simplePaginate(10);
-        return view('productos.index',['productos'=>$productos]);
+        $productos = Producto::latest()->get();
+        $departamentos = Departamento::all('id','name'); 
+        $ubiexacta = UbicacionExacta::all('id','name'); 
+        $categorias = Categoria::all('id','descripcion');
+        $subcat = SubCategoria::all('id','descripcion'); 
+        $tiposubcat = TipoSubCat::all('id','descripcion'); 
+        $status = StatusBienes::all('id','name'); 
+
+        return view('productos.index',[
+            'productos'=>$productos,
+            'departamentos'=>$departamentos,
+            'ubiexacta'=>$ubiexacta,
+            'categorias'=>$categorias,
+            'subcat'=>$subcat,
+            'tiposubcat'=>$tiposubcat,
+            'status'=>$status
+        ]);
     }
 
     /**
@@ -36,13 +51,16 @@ class ProductosController extends Controller
     public function create()
     {
         $productos = new Producto;
-        $estado = Estado::all();
-        $tipo = Tipo::all();
-        $material = Material::all();
-        $ubicacion = Ubicacion::all();
-        return view("productos.create",
-                compact('estado','tipo','material','ubicacion'),
-                ["productos" => $productos]);
+        $departamentos = Departamento::all('id','name'); 
+        $categorias = Categoria::all('id','descripcion'); 
+        $status = StatusBienes::all('id','name'); 
+
+        return view("productos.create",[
+            'productos' => $productos,
+            'departamentos' => $departamentos,
+            'categorias' => $categorias,
+            'status' => $status,
+        ]);
     }
 
     /**
@@ -53,28 +71,21 @@ class ProductosController extends Controller
      */
     public function store(CreateProductRequest $request)
     {
-        $productos = new Producto;
-        
-        /*$rand = mt_rand(1000, 9000).date("i");
-        $productos->item = $rand;*/
-        $productos->etiqueta = $request->etiqueta;
-        $productos->empresa = $request->empresa;
-        $productos->estado_id = $request->estado_id;
-        $productos->ubicacion_id = $request->ubicacion_id;
-        $productos->tipo_id = $request->tipo_id;
-        $productos->marca = $request->marca;
-        $productos->modelo = $request->modelo;
-        $productos->serial = $request->serial;
-        $productos->material_id = $request->material_id;
-        $productos->descripcion = $request->descripcion;
-        $productos->status = $request->status;
+        $productos = new Producto($request->all());
 
         if ($productos->save()) {
-            \Session::flash('message', 'Producto creado con exito!');
+            Bitacora::saveData($productos->id, 'bienes', 1);
+            $resp = new Responsable();
+            $resp->bienes_id = $productos->id;
+            $resp->cedula = $request->cedula;
+            $resp->name = $request->name;
+            $resp->ape = $request->ape;
+            $resp->save();
+            \Session::flash('message', 'creado con exito!');
             return redirect('/productos');
         }else{
             \Session::flash('error', 'Ocurrio un Problema');
-            return redirect('productos.create');
+            return redirect('productos/create');
         }
     }
 
@@ -98,13 +109,16 @@ class ProductosController extends Controller
      */
     public function edit($id)
     {
-        $productos = Producto::find($id);     
-        $estado = Estado::all();
-        $tipo = Tipo::all();
-        $material = Material::all();
-        return view("productos.edit",
-                compact('estado','tipo','material'),
-                ["productos" => $productos]);
+        $productos = Producto::find($id);
+
+        return response()->json($productos->toarray());
+            // "etiqueta" => $productos->etiqueta,
+            // "departamento_id" => $productos->nameDepartamento(),
+            // "ubicacion_exacta_id" => $productos->nameUbicacionExacta(),
+            // "categoria_id" => $productos->nameCategoria(),
+            // "sub_categoria_id" => $productos->nameSubCategoria(),
+            // "tipo_subcat_id" => $productos->tipoSubCat->descripcion,
+            // "tipo_subcat_id" => $productos->tipoSubCat->descripcion,
     }
 
     /**
@@ -116,26 +130,13 @@ class ProductosController extends Controller
      */
     public function update(EditProductRequest $request, $id)
     {
-        $productos = Producto::find($id);
-        $productos->etiqueta = $request->etiqueta;
-        $productos->empresa = $request->empresa;
-        //$productos->estado_id = $request->estado_id;
-        //$productos->ubicacion_id = $request->ubicacion_id;
-        //$productos->tipo_id = $request->tipo_id;
-        $productos->marca = $request->marca;
-        $productos->modelo = $request->modelo;
-        $productos->serial = $request->serial;
-        //$productos->material_id = $request->material_id;
-        $productos->descripcion = $request->descripcion;
-        $productos->status = $request->status;
-
-        if ($productos->save()) {
-              \Session::flash('message', 'Editado con exito!');
-              return redirect('productos');
-          }else{
-                \Session::flash('error', 'Ocurrio un problema!');
-                return redirect('productos.edit');
-          }
+        if ($request->ajax()) {
+            $productos = Producto::findOrFail($id);
+            $productos->fill($request->all());
+            $productos->save();
+            Bitacora::saveData($productos->id, 'bienes', 2);
+            return response()->json([ "mensaje" => "actualizado" ]);
+        }
     }
 
     /**
@@ -146,9 +147,24 @@ class ProductosController extends Controller
      */
     public function destroy($id)
     {
-        Producto::destroy($id);
-        \Session::flash('error', 'Eliminado con exito!');
-        return redirect('/productos');
+        // Producto::destroy($id);
+        // \Session::flash('error', 'Eliminado con exito!');
+        // return redirect('/productos');
+    }
+
+    public function productoStatus(Request $request, $id){
+        
+        $this->validate($request, [
+            'status_bienes_id' =>'required|in:1,2,3,4,5,6,7,8,9,10,11'
+        ]);
+
+        if ($request->ajax()) {
+            $productos = Producto::findOrFail($id);
+            $productos->fill($request->all());
+            $productos->save();
+            Bitacora::saveData($productos->id, 'bienes', 2);
+            return response()->json([ "mensaje" => "actualizado" ]);
+        }
     }
 
 }

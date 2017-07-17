@@ -6,67 +6,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Producto;
 use App\Users;
-use App\Reporte;
-use App\Pedido;
 
 class PdfController extends Controller
 {
-
-	public function __construct(){
-		$this->middleware("auth");
-	}
-
     public function invoice($id) 
     {
-        //Instanciar el modelo reporte y obtener el producto seleccionado
-        $reporte = new Reporte;
-    	$productos = Producto::find($id);
+    	$producto = Producto::findOrFail($id);
 
-        // Almacenar el user y el producto en la tabla reportes
-        $user = Auth::User()->id;
-        $user_full_name  = Auth::User()->name." ".Auth::user()->ape;
-        $reporte->user_id = $user;
-        $reporte->producto_id = $id;
-        $reporte->save();
-
-        //concatenar el id y fecha para nombrar los .pdf 
-        $dateitem = $productos->id.date('d-m-Y-h:i:s');
-        $footer = 'Copyright '.date('Y').' Venezolana de Riego C.A. | All rights reserved.';
-
-        //cargamos un array con la info del producto
-        $data = array('Empresa o Dependencia' => 'VENEZOLANA DE RIEGO C.A.',
-                        'espacio' => '----------------------------------------------',
-                        'Item' => 'Item = '.$productos->id,
-                        'Etiqueta' => 'Etiqueta = '.$productos->etiqueta,
-                        'Empresa Perteneciente' => 'Empresa Perteneciente = '.$productos->empresa,
-                        'Descripcion' => 'Descripcion = '.$productos->descripcion,
-                        'Ubicacion' => 'Ubicacion = '.$productos->nameUbicacion(),
-                        'Estado' => 'Estado = '.$productos->nameEstado(),
-                        'Tipo' => 'Tipo = '.$productos->nameTipo(),
-                        'Material' => 'Material = '.$productos->nameMaterial(),
-                        'Marca' => 'Marca = '.$productos->nameMarca(),
-                        'Modelo' => 'Modelo = '.$productos->nameModelo(),
-                        'serial' => 'Serial = '.$productos->nameSerial(),
-                        'status' => 'Status = '.$productos->statusProducto(),
-                        'Fecha de Creacion' => 'Creacion = '.$productos->formatocreated(),
-                        'Ultima Actualizacion' => 'Ultima Actualizacion = '.$productos->formatoupdated(),
-                        'Elaborado Por' => 'Elaborado Por = '.$user_full_name,
-                        'Fecha' => 'Fecha del reporte = '. date('d-m-Y'), 
-                        'espaciofooter' => '----------------------------------------------',
-                        'Footer' => $footer
-                    ); 
-
-        //transformar la salida en string y pasamos al qr en base64
-        $datafinal = implode("\n",$data);
-        $qr = \QrCode::format('png')->size(200)->generate($datafinal);
-        $base64qr = base64_encode($qr);
+        $dateitem = $id.date('d-m-Y-h:i:s');
 
         //renderisar la vista a la cual hace referencia el pdf
-		$pdf = \PDF::loadView('productos.reporte_unico', 
-                        array('productos' => $productos,
-                            'base64qr' => $base64qr));
-        
-		return $pdf->stream($dateitem.'.pdf');
+        //y pasar un array como segundo argumento con la data
+        $pdf = \PDF::loadView('productos.reporte_unico', 
+                        array('producto' => $producto)
+                );
+        //retornar el pdf con la extension y formato deseado
+        return $pdf->stream($dateitem.'.pdf');
     }
 
     public function completo(){
@@ -78,29 +33,70 @@ class PdfController extends Controller
                         array('inventario' => $inventario
                         ));
         
-        return $pdf->setPaper('a3','landScape')->stream($dateitem.'.pdf');
+        return $pdf->setPaper('a4','landScape')->stream($dateitem.'.pdf');
 
     }
 
-    //------------ reporte pdf para los pedidos
-    public function pedido($id){
+    //------------ reporte pdf para mes actual
+    public function mesActual(){
 
-        $pedidos = Pedido::find($id);
-
-        $users = Users::where('id','=',$pedidos->user_id)->get();
+        $bienes = Producto::mesActual();
 
         //concatenar el id y fecha para nombrar los .pdf 
-        $dateitem = $id.date('d-m-Y-h:i:s');
+        $date = date('M');
+        $datehis = date('h:i:s');
 
         //renderisar la vista a la cual hace referencia el pdf
-        $pdf = \PDF::loadView('pedidos.reporte_pedido',
-                        array(
-                            'users' => $users,
-                            'pedidos' => $pedidos
-        ));
+        $pdf = \PDF::loadView('inventario.reporte_mes_actual',
+                        array('bienes' => $bienes)
+        );
         
-        return $pdf->stream('pedido'.$dateitem.'.pdf');
+        return $pdf->setPaper('a4','landScape')->download('Reporte del mes '.($date).' - '.$datehis.'.pdf');
 
+    }
+
+    //------------ reporte pdf para mes anterior
+    public function mesAnterior(){
+
+        $bienes = Producto::mesAnterior();
+
+        //concatenar el id y fecha para nombrar los .pdf 
+        $date = date('m') - 01;
+        $datehis = date('h:i:s');
+
+        //renderisar la vista a la cual hace referencia el pdf
+        $pdf = \PDF::loadView('inventario.reporte_mes_actual',
+                        array('bienes' => $bienes)
+        );
+        
+        return $pdf->setPaper('a4','landScape')->download('Reporte del mes '.($date).' - '.$datehis.'.pdf');
+
+    }
+
+
+    // reporte general para descargar
+    public function downloadGeneral(Request $request){
+        $validate = $this->validate($request, [
+            'from' =>'required',
+            'to' =>'required',
+        ]);
+
+        $desde = date('Y-m-d 00:00:00',strtotime(str_replace('/', '-', $request->from)));
+        $hasta = date('Y-m-d 23:59:59',strtotime(str_replace('/', '-', $request->to)));
+
+        $bienes = Producto::whereBetween('created_at',[$desde, $hasta])->get();
+        $count = $bienes->count();
+
+        if ($count > 1) {
+            $date = date('d-m-Y-h:i:s');
+            $pdf = \PDF::loadView('inventario.reporte_mes_actual',
+                        array('bienes' => $bienes)
+            );
+            return $pdf->setPaper('a4','landScape')->download('Reporte general '.$date.'.pdf');
+        }else{
+            \Session::flash('error', 'La cantidad de registros encontrada es '.$count.', intente otra fecha');
+            return redirect('inventario');
+        }
     }
 
 }

@@ -12,9 +12,6 @@
 				<div class="col-sm-6 sale-span"><p>Apellido</p> {{ $users->ape }}</div>
 				<div class="col-sm-6 sale-span"><p>Correo</p> {{ $users->email }}</div>
 				<div class="col-sm-6 sale-span"><p>Direccion</p> {{ $users->direccion }}</div>
-				<div class="col-sm-6 sale-span"><p>fecha de Nacimiento</p> {{ $users->formatofecha() }}</div>
-				<div class="col-sm-6 sale-span"><p>Edad</p> {{ $users->getAgeAttribute()}} Años</div>
-				<div class="col-sm-6 sale-span"><p>Opservacion</p>  Ninguna</div>
 				<div class="col-sm-6 sale-span">
 					@if(($users->status) == 1)
 						<p>Status</p><span class="label label-primary">Activo</span>
@@ -27,10 +24,6 @@
 					 	<p>Perfil</p><span class="label label-info">Administrador</span>
 					 </div>
 				@elseif(($users->perfil_id) == 2)
-					 <div class="col-sm-6 sale-span">
-					 	<p>Perfil</p><span class="label label-success">Administrador pD</span>
-					 </div>
-				@elseif(($users->perfil_id) == 3)
 					 <div class="col-sm-6 sale-span">
 					 	<p>Perfil</p><span class="label label-warning">Usuario</span>
 					 </div>

@@ -4,6 +4,7 @@
 <div class="div-padding">
     <div class="row">
         <div class="col-md-10 col-xs-12 col-md-offset-1">
+        @include('message.message')
             <div class="panel panel-primary">
                 <div class="panel-heading"><h4>Registro Unico (para primer uso)</h4> </div>
                 <div class="panel-body" style="padding: 2em;">
@@ -26,9 +27,6 @@
                             {!! Form::textarea('direccion',null, ['class' => 'form-control', 'placeholder' => 'Direccion...']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::text('fechanac',null, ['class' => 'form-control', 'placeholder' => 'Fecha de nacimiento...formato: aa/mm/dd', 'id' => 'datepicker']) !!}
-                        </div>
-                        <div class="form-group">
                             <select name="perfil_id" class="form-control">
                                 <option value="">Perfil del usuario...</option>
                                 <option value="1">Administrador</option>
@@ -49,11 +47,8 @@
                         </div>      
                         <div class="form-group text-right">
                             <a href="{{ url('/') }}" class="btn btn-link text-primary">Volver al inicio</a>
-                            <input type="submit" value="Registro" class="btn btn-success" style="color:black">
+                            <input type="submit" value="Registro" class="btn btn-success">
                         </div>
-
-
-                        
                     </form>
                 </div>
             </div>

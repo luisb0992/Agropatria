@@ -2,26 +2,18 @@
 	<head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<style type="text/css" media="screen">
+    table tr th{
+      font-family: times new roman;
+    }
     .h1_padding{
       padding-bottom: 10px; 
       border-bottom: solid 1px #222;
     }
-    .sale-data{
-      padding: 1em;
-      color: #000000;
-      text-align: center;
-      border-right: solid 1px #eee;
+    .gris-oscuro{
+      background-color: #222D32;
     }
-    .sale-span{
-      text-align: center;
-      padding: 0.5em;
-    }
-    .border-bottom-pdf{
-      text-align: center;
-      padding: 1em;
-      display: block;
-      color: #222;
-      border-right: solid 1px #eee;
+    .gris-claro{
+      background-color: #F5F5F5;
     }
     .white{
       background-color: #fff;
@@ -7372,7 +7364,7 @@
     }
     body
     {
-        margin: 0 0 10px;
+        margin: 0 0 0px;
     }
 	</style>
 	</head>

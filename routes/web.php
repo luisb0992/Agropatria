@@ -17,45 +17,67 @@ Auth::routes();
 Route::get('/','LoginController@index');
 
 /* ---- Ruuta para llamar al dashboard, modificarla si es necesario ----- */
-Route::get('dashboard', 'DashboardController@index');
+Route::get('dashboard', 'DashboardController@index')->middleware('auth','status_user');
 
 /* ---- Ruuta para llamar al inventario ----- */
-Route::get('inventario', 'InventariosController@index');
+Route::get('inventario', 'InventariosController@index')->middleware('auth','role.admin','status_user');
 
 /* ---- Ruuta para llamar al inventario/datapicker ----- */
-Route::post('busqueda', 'InventariosController@picker');
+Route::post('busqueda', 'InventariosController@picker')->middleware('auth','role.admin','status_user');
 
-/* ---- Ruta para llamar al reporte/datapicker ----- */
-Route::post('busquedareporte', 'InventariosController@pickerReporte');
+// /* ---- Ruuta para buscar datos en la bitacora por fecha ----- */
+// Route::post('busquedabitacora', 'InventariosController@busquedaBitacora');
 
-/* ---- Ruta para llamar al inventario/datapicker ----- */
-Route::get('inventario/reporteusers', 'InventariosController@reporteusers');
-
-/*---- Ruta  Resource para los usuarios----*/
-Route::resource('users','UsersController');
-
-/*---- Ruta  Resource para los Productos----*/
-Route::resource('productos','ProductosController');
-
-/*---- Ruta  Resource para los Materiales----*/
-Route::resource('materiales','MaterialesController');
-
-/*---- Ruta  Resource para las ubicaciones----*/
-Route::resource('ubicaciones','UbicacionesController');
-
-/*---- Ruta  Resource para las ubicaciones----*/
-Route::resource('pedidos','PedidosController');
-
-/*---- Ruta  Resource para los tipos----*/
-Route::resource('tipos','TiposController');
+/* ---- Ruuta para mostrar bienes ----- */
+Route::get('busqueda_bienes/{id}', 'InventariosController@busquedaBienes')->middleware('auth','role.admin','status_user');
 
 /*----- PDF individual-----*/
-Route::get('pdf/{id}', 'PdfController@invoice');
-
-/*----- PDF individual para pedidos-----*/
-Route::get('pdf/pedido/{id}', 'PdfController@pedido');
+Route::get('pdf/{id}', 'PdfController@invoice')->middleware('auth','status_user');
 
 /*----- PDF Reporte general -----*/
-Route::get('pdf', 'PdfController@completo');
+Route::get('pdf', 'PdfController@completo')->middleware('auth','status_user');
+
+/*----- PDF reporte general por ajax -----*/
+Route::post('pdf_general_download', 'PdfController@downloadGeneral')->middleware('auth','role.admin','status_user');
+
+/*----- PDF mes actual -----*/
+Route::get('pdf_mes_actual', 'PdfController@mesActual')->middleware('auth','role.admin','status_user');
+
+/*----- PDF mes anterior -----*/
+Route::get('pdf_mes_anterior', 'PdfController@mesAnterior')->middleware('auth','role.admin','status_user');
+
+//busqueda ajax
+Route::get('ubi/{id}','DepartamentosController@busquedaDep')->middleware('auth','role.user','status_user');
+
+Route::get('subcat/{id}','CategoriasController@busquedaSubCat')->middleware('auth','role.user','status_user');
+
+Route::get('tipo_subcat/{id}','TiposSubcatController@busquedaTipoSubCat')->middleware('auth','role.user','status_user');
+
+Route::get('QR/{id}','QRController@mostrarQR')->middleware('auth','role.user','status_user');
+
+Route::get('QR_Dowmload/{id}','QRController@descargarQR')->middleware('auth','role.user','status_user');
+
+Route::post('prod_status/{id}', 'ProductosController@productoStatus')->middleware('auth','role.user','status_user');
+
+Route::resource('productos','ProductosController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('departamentos','DepartamentosController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('ubi_exactas','UbicacionesExactasController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('categorias','CategoriasController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('sub_categorias','SubCategoriasController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('tipos_subcat','TiposSubcatController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('responsable','ResponsableController',['middleware' => ['auth','role.user','status_user']]);
+
+Route::resource('users','UsersController',['middleware' => ['auth','role.admin','status_user']]);
+
+Route::resource('bitacora','BitacoraController',['middleware' => ['auth','role.admin','status_user']]);
+
+Route::resource('estadisticas','EstadisticasController',['middleware' => ['auth','role.admin','status_user']]);
+
 
 

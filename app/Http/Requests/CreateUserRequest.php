@@ -24,11 +24,10 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'cedula'=>'required|numeric',
+            'cedula'=>'required|numeric|unique:users,cedula',
             'name'=>'required',
             'ape'=>'required',
             'email'=>'required|email|unique:users,email',
-            'fechanac'=>'required',
             'perfil_id'=>'required|in:1,2',
             'status'=>'required|in:1,0',
             'password'=>'required',
@@ -45,7 +44,6 @@ class CreateUserRequest extends FormRequest
         'email.required'=>'El correo no debe estar vacio',
         'email.email'=>'El correo debe ser formato email, Ejemplo: yo@ejemplo.com',
         'email.unique'=>'El correo no debe estar en uso',
-        'fechanac.required'=>'La fecha de nacimiento no debe estar vacia',
         'perfil_id.required'=>'Debe seleccionar un perfil del usuario',
         'perfil_id.in'=>'Error al elegir el perfil del usuario',
         'status.required'=>'Debe seleccionar un status',
